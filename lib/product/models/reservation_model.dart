@@ -1,19 +1,19 @@
 class ReservationModel {
   final String uid;
   final String day;
-  final int personCount;
+  final String studioName;
 
   ReservationModel({
     required this.uid,
     required this.day,
-    required this.personCount,
+    required this.studioName,
   });
 
-  factory ReservationModel.fromJson(Map<String, dynamic> json) {
+  factory ReservationModel.fromJson(Map<String, dynamic> json, String uid) {
     return ReservationModel(
-      uid: json['uid'],
+      uid: uid,
       day: json['day'],
-      personCount: json['personCount'],
+      studioName: json['studioName'],
     );
   }
 
@@ -21,7 +21,7 @@ class ReservationModel {
     return {
       'uid': uid,
       'day': day,
-      'personCount': personCount,
+      'studioName': studioName,
     };
   }
 }

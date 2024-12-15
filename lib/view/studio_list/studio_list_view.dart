@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intern_task/view/studio_list/studio_list_viewmodel.dart';
+import 'package:intern_task/view/stuido_detail/studio_detail_view.dart';
 
 import '../../product/models/studio_model.dart';
 
@@ -17,6 +20,7 @@ class _StudioListViewState extends ConsumerState<StudioListView> {
           (ref) => StudioListViewModel());
   @override
   void initState() {
+    log("initializing studio list view");
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(provider).fetchStudioList();
     });
@@ -24,8 +28,17 @@ class _StudioListViewState extends ConsumerState<StudioListView> {
   }
 
   @override
+  void dispose() {
+    log("disposing studio list view");
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var filteredStudioList = ref.read(provider).filteredStudioList;
+    if (ref.watch(provider).isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
     return Container(
         child: ListView.separated(
       itemCount: filteredStudioList.length,
@@ -38,11 +51,20 @@ class _StudioListViewState extends ConsumerState<StudioListView> {
   }
 
   Widget _studioCard(StudioModel studioModel) {
-    return Container(
-      // make some fancy decoration
-      child: ListTile(
-        title: Text(studioModel.name),
-        subtitle: Text(studioModel.description),
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    StudioDetailView(studioModel: studioModel)));
+      },
+      child: Container(
+        // make some fancy decoration
+        child: ListTile(
+          title: Text(studioModel.name),
+          subtitle: Text(studioModel.description),
+        ),
       ),
     );
   }

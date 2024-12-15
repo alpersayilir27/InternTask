@@ -9,6 +9,7 @@ class StudioModel {
   final String description;
   final List<DanceStyleEnum> danceStyles;
   final List<String> reservationDays;
+  final String image = "https://picsum.photos/200";
 
   StudioModel({
     required this.uid,
@@ -28,7 +29,7 @@ class StudioModel {
       address: json['address'],
       lat: json['lat'],
       long: json['long'],
-      danceStyles: (json['danceStyles'] as List<String>)
+      danceStyles: (json['danceStyles'] as List<dynamic>)
           .map((e) =>
               DanceStyleEnum.values.firstWhere((element) => element.name == e))
           .toList(),
