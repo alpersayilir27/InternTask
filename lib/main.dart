@@ -22,7 +22,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return ProviderScope(
       child: MaterialApp(
-        title: "intern_task for Mimiqit",
+        title: "Intern Task for Mimiqit",
         navigatorKey: AppConstants.navigatorKey,
         home: const SplashView(),
       ),

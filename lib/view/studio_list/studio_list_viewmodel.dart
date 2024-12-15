@@ -11,6 +11,12 @@ class StudioListViewModel extends BaseNotifier {
   List<StudioModel> filteredStudioList = [];
 
   void search(String value) {
+    if (value.isEmpty) {
+      filteredStudioList.clear();
+      filteredStudioList.addAll(_studioList);
+      notifyListeners();
+      return;
+    }
     filteredStudioList = _studioList.where((element) {
       bool nameContains = element.name.toLowerCase().contains(value);
       bool descriptionContains =

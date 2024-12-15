@@ -40,13 +40,19 @@ class _StudioListViewState extends ConsumerState<StudioListView> {
       return const Center(child: CircularProgressIndicator());
     }
     return Container(
-        child: ListView.separated(
-      itemCount: filteredStudioList.length,
-      itemBuilder: (context, index) {
-        var studioModel = filteredStudioList[index];
-        return _studioCard(studioModel);
-      },
-      separatorBuilder: (context, index) => const Divider(),
+        child: Column(
+      children: [
+        _searchBar(),
+        ListView.separated(
+          shrinkWrap: true,
+          itemCount: filteredStudioList.length,
+          itemBuilder: (context, index) {
+            var studioModel = filteredStudioList[index];
+            return _studioCard(studioModel);
+          },
+          separatorBuilder: (context, index) => const Divider(),
+        )
+      ],
     ));
   }
 
@@ -65,6 +71,18 @@ class _StudioListViewState extends ConsumerState<StudioListView> {
           title: Text(studioModel.name),
           subtitle: Text(studioModel.description),
         ),
+      ),
+    );
+  }
+
+  Widget _searchBar() {
+    return TextField(
+      onChanged: (value) {
+        ref.read(provider).search(value);
+      },
+      decoration: const InputDecoration(
+        hintText: "Search Studio",
+        prefixIcon: Icon(Icons.search),
       ),
     );
   }
